@@ -5,35 +5,36 @@
 
 enum layer_number {
     // clang-format off
-    _QWERTY = 0,
+    _BASE = 0,
     _GAME,
+    _GAMEUP,
     _NAV,
     _NUMBER,
     _SYMBOL,
     _FUNC,
-    _SYS
+    _SYS,
+    _MEDIA
     // clang-format on
 };
 
 // Left-hand home row mods
 #define HOME_A LGUI_T(KC_A)
-#define HOME_S LALT_T(KC_S)
-#define HOME_D LCTL_T(KC_D)
-#define HOME_F LSFT_T(KC_F)
+#define HOME_O LALT_T(KC_O)
+#define HOME_E LCTL_T(KC_E)
+#define HOME_U LSFT_T(KC_U)
 
 // Right-hand home row mods
-#define HOME_J RSFT_T(KC_J)
-#define HOME_K RCTL_T(KC_K)
-#define HOME_L LALT_T(KC_L)
-#define HOME_SCLN RGUI_T(KC_SCLN)
+#define HOME_H RSFT_T(KC_H)
+#define HOME_T RCTL_T(KC_T)
+#define HOME_N LALT_T(KC_N)
+#define HOME_S RGUI_T(KC_S)
 
 // bottom mods
-#define SYM_SPC LT(_SYMBOL, KC_SPC)
-#define NUM_TAB LT(_NUMBER, KC_TAB)
-#define FUNC_ESC LT(_FUNC, KC_ESC)
-#define FUNC_ENT LT(_FUNC, KC_ENT)
-#define NAV_BSPC LT(_NAV, KC_BSPC)
-#define RALT_DEL LALT_T(KC_DEL)
+#define MED_ESC LT(_MEDIA, KC_ESC)
+#define NAV_SPC LT(_NAV, KC_SPC)
+#define SYM_ENT LT(_SYMBOL, KC_ENT)
+#define NUM_BSPC LT(_NUMBER, KC_BSPC)
+#define FUN_DEL LT(_FUN, KC_DEL)
 
 // game layer mods
 #define LALT_Q LALT_T(KC_Q)
@@ -55,18 +56,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                         `-------------''-------'          '-------''-------------'
      */
     // clang-format off
-    [_QWERTY] = LAYOUT(
-                            KC_W,    KC_E,    KC_R,    KC_T,                KC_Y,    KC_U,    KC_I,     KC_O,
-        KC_Q,     HOME_A,   HOME_S,  HOME_D,  HOME_F,  KC_G,                KC_H,    HOME_J,  HOME_K,   HOME_L,  HOME_SCLN,  KC_P,
-        KC_MINS,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,                KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,    KC_QUOT,
-                                   FUNC_ESC,  NUM_TAB,  SYM_SPC,     FUNC_ENT,  NAV_BSPC,  RALT_DEL
+    [_BASE] = LAYOUT(
+                            KC_COMM, KC_DOT,  KC_P,    KC_Y,                KC_F,    KC_G,    KC_C,     KC_R,
+        KC_SQT,   HOME_A,   HOME_O,  HOME_E,  HOME_U,  KC_I,                KC_D,    HOME_H,  HOME_T,   HOME_N,  HOME_S,  KC_L,
+        KC_COLN,  KC_COLN,  KC_Q,    KC_J,    KC_K,    KC_X,                KC_B,    KC_M,    KC_W,     KC_V,    KC_Z,    KC_Z,
+                                     MED_ESC, NAV_SPC, KC_TAB,              SYM_ENT, NUM_BSPC,FUN_DEL
     ),
 
     [_GAME] = LAYOUT(
-                            KC_W,    KC_E,    KC_R,    KC_T,               KC_Y,    KC_U,    KC_I,     KC_O,
-        LALT_Q,     KC_A,   KC_S,    KC_D,    KC_F,    KC_G,               KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
-        LSFT_MINS,  KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,               KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
-                                    LCTL_ESC,  NUM_TAB,  SYM_SPC,    FUNC_ENT,  NAV_BSPC,  RALT_DEL
+                            KC_2,    KC_3,    KC_4,    KC_P,               TO(_BASE),    KC_U,    KC_I,     KC_O,
+        KC_1,       KC_Q,   KC_W,    KC_E,    KC_R,    KC_F,               KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
+        KC_ESC,     KC_TAB, KC_A,    KC_S,    KC_D,    KC_B,               KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
+                                     KC_LSFT, GAU_SPC, KC_LALT,            FUNC_ENT,  NAV_BSPC,  RALT_DEL
+    ),
+
+    [_GAMEUP] = LAYOUT(
+                                KC_F2,       KC_F3,      KC_F4,      KC_SPC,             KC_Y,    KC_U,    KC_I,     KC_O,
+        KC_F1,      LSFT(KC_Q), LSFT(KC_W),  LSFT(KC_E), LSFT(KC_R), KC_F,               KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
+        KC_ESC,     KC_TAB,     KC_GRAVE,    KC_T,       KC_T,       KC_ESC,             KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
+                                             KC_LSFT,    GAU_SPC,    KC_LALT,            FUNC_ENT,  NAV_BSPC,  RALT_DEL
     ),
 
     [_NAV] = LAYOUT(
@@ -77,17 +85,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NUMBER] = LAYOUT(
-                            KC_7,    KC_8,    KC_9,    KC_GRV,              XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        KC_EQL,   KC_0,     KC_4,    KC_5,    KC_6,    KC_LBRC,             XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_MINS,  KC_BSLS,  KC_1,    KC_2,    KC_3,    KC_RBRC,             XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                     KC_ENT,  _______,  TG(_GAME),       FUNC_ENT,  NAV_BSPC,  RALT_DEL
+                            KC_7,    KC_8,    KC_9,    KC_PLUS,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        KC_GRAVE, KC_MINS,  KC_4,    KC_5,    KC_6,    KC_DLR,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
+        KC_MINS,  KC_ASTR,  KC_1,    KC_2,    KC_3,    KC_SLSH,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                     KC_DOT,  KC_0,    TG(_GAME),       FUNC_ENT, _______,  RALT_DEL
     ),
 
     [_SYMBOL] = LAYOUT(
-                                        LSFT(KC_7), LSFT(KC_8), LSFT(KC_9), LSFT(KC_GRV),           XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        LSFT(KC_EQL),   LSFT(KC_0),     LSFT(KC_4), LSFT(KC_5), LSFT(KC_6), LSFT(KC_LBRC),          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        LSFT(KC_MINS),  LSFT(KC_BSLS),  LSFT(KC_1), LSFT(KC_2), LSFT(KC_3), LSFT(KC_RBRC),          XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                                                MO(_SYS),  KC_BSPC, _______,     FUNC_ENT,  NAV_BSPC,  RALT_DEL
+                          KC_LBRC, KC_RBRC,  KC_AMPR, KC_PIPE,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        KC_TILD, KC_UNDS, KC_LPRN, KC_RPRN,  KC_PERC, KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
+        KC_COLN, KC_AT,   KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS          XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                   MO(_SYS), KC_BSPC, _______,     FUNC_ENT,  NAV_BSPC,  RALT_DEL
     ),
 
     [_FUNC] = LAYOUT(
