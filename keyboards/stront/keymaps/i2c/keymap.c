@@ -86,10 +86,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NAV] = LAYOUT(
-                                   XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX,             XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_MNXT,
-        KC_CUT,  LGUI_T(KC_COPY),  LALT_T(KC_PSTE),  LCTL_T(KC_UNDO),  LSFT_T(KC_AGIN),  XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_PAU,
-        XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          TG(_GAME),        XXXXXXX,             KC_INS,   KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   KC_APP,
-                                                     KC_ESC,           _______,          KC_TAB,              KC_ENT,   KC_BSPC,  KC_DEL
+                                          XXXXXXX,               XXXXXXX,              XXXXXXX,              XXXXXXX,             XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_MNXT,
+        LCTL(KC_X),  LGUI_T(LCTL(KC_C)),  LALT_T(LCTL(KC_V)),    LCTL_T(LCTL(KC_Z)),   LSFT_T(LCTL(KC_Y)),   XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_PAU,
+        XXXXXXX,     XXXXXXX,             XXXXXXX,               XXXXXXX,              TG(_GAME),            XXXXXXX,             KC_INS,   KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   KC_APP,
+                                                                 KC_ESC,               _______,              KC_TAB,              KC_ENT,   KC_BSPC,  KC_DEL
     ),
 
     [_SYS] = LAYOUT(
@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           KC_LBRC, KC_RBRC,  KC_AMPR, KC_PIPE,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
         KC_TILD, KC_UNDS, KC_LPRN, KC_RPRN,  KC_PERC, KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
         KC_COLN, KC_AT,   KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS          XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                   KC_DOT,   KC_QUES, KC_EXLM,         _______,  NUM_BSPC, FUN_DEL
+                                   KC_SCLN,   KC_QUES, KC_EXLM,         _______,  NUM_BSPC, FUN_DEL
     ),
 
     [_NUMBER] = LAYOUT(
