@@ -86,10 +86,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NAV] = LAYOUT(
-                                          XXXXXXX,               XXXXXXX,              XXXXXXX,              XXXXXXX,             XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_MNXT,
-        LCTL(KC_X),  LGUI_T(LCTL(KC_C)),  LALT_T(LCTL(KC_V)),    LCTL_T(LCTL(KC_Z)),   LSFT_T(LCTL(KC_Y)),   XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_PAU,
-        XXXXXXX,     XXXXXXX,             XXXXXXX,               XXXXXXX,              TG(_GAME),            XXXXXXX,             KC_INS,   KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   KC_APP,
-                                                                 KC_ESC,               _______,              KC_TAB,              KC_ENT,   KC_BSPC,  KC_DEL
+                                     XXXXXXX,            LCTL(KC_X),         XXXXXXX,            XXXXXXX,             XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_MNXT,
+        XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_PAU,
+        XXXXXXX, XXXXXXX,            XXXXXXX,            XXXXXXX,            TG(_GAME),          XXXXXXX,             KC_INS,   KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   KC_APP,
+                                                         KC_ESC,             _______,            KC_TAB,              KC_ENT,   KC_BSPC,  KC_DEL
     ),
 
     [_SYS] = LAYOUT(
