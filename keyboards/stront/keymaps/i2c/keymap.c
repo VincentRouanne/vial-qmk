@@ -34,8 +34,9 @@ enum layer_number {
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define SYM_ENT LT(_SYMBOL, KC_ENT)
 #define NUM_BSPC LT(_NUMBER, KC_BSPC)
-#define FUN_DEL LT(_FUN, KC_DEL)
+#define FUN_DEL LT(_FUNC, KC_DEL)
 #define SYS_TAB LT(_SYS, KC_TAB)
+#define GAU_SPC LT(_GAMEUP, KC_SPC)
 
 // game layer mods
 #define LALT_Q LALT_T(KC_Q)
@@ -59,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
     [_BASE] = LAYOUT(
                             KC_COMM, KC_DOT,  KC_P,    KC_Y,                KC_F,    KC_G,     KC_C,     KC_R,
-        KC_SQT,   HOME_A,   HOME_O,  HOME_E,  HOME_U,  KC_I,                KC_D,    HOME_H,   HOME_T,   HOME_N,  HOME_S,  KC_L,
+        KC_QUOT,   HOME_A,   HOME_O,  HOME_E,  HOME_U,  KC_I,               KC_D,    HOME_H,   HOME_T,   HOME_N,  HOME_S,  KC_L,
         KC_COLN,  KC_COLN,  KC_Q,    KC_J,    KC_K,    KC_X,                KC_B,    KC_M,     KC_W,     KC_V,    KC_Z,    KC_Z,
                                      MOU_ESC, NAV_SPC, SYS_TAB,             SYM_ENT, NUM_BSPC, FUN_DEL
     ),
@@ -87,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT(
                                      XXXXXXX,            LCTL(KC_X),         XXXXXXX,            XXXXXXX,             XXXXXXX,  KC_MPLY,  KC_MPRV,  KC_MNXT,
-        XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_PAU,
+        XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), XXXXXXX,             KC_CAPS,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  XXXXXXX,
         XXXXXXX, XXXXXXX,            XXXXXXX,            XXXXXXX,            TG(_GAME),          XXXXXXX,             KC_INS,   KC_HOME,  KC_PGUP,  KC_PGDN,  KC_END,   KC_APP,
                                                          KC_ESC,             _______,            KC_TAB,              KC_ENT,   KC_BSPC,  KC_DEL
     ),
@@ -102,8 +103,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_SYMBOL] = LAYOUT(
                           KC_LBRC, KC_RBRC,  KC_AMPR, KC_PIPE,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
         KC_TILD, KC_UNDS, KC_LPRN, KC_RPRN,  KC_PERC, KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_COLN, KC_AT,   KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS          XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                   KC_SCLN,   KC_QUES, KC_EXLM,         _______,  NUM_BSPC, FUN_DEL
+        KC_COLN, KC_AT,   KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS,          XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                   KC_SCLN,  KC_QUES, KC_EXLM,         _______,  NUM_BSPC, FUN_DEL
     ),
 
     [_NUMBER] = LAYOUT(
