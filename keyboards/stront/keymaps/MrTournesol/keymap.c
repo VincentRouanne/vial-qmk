@@ -18,10 +18,14 @@ enum layer_number {
 };
 
 enum combo_events {
-E_ACCENT,
-E_ACCENT2,
-A_ACCENT,
-LINE_SEL,
+	E_ACCENT,
+	E_ACCENT2,
+	A_ACCENT,
+	LINE_SEL,
+};
+
+enum custom_keycodes {
+    KC_LINESEL = SAFE_RANGE,
 };
 
 // Left-hand home row mods
@@ -130,12 +134,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT(
                             KC_COMM, KC_DOT,  KC_P,    KC_Y,                KC_F,    KC_G,     KC_C,     KC_R,
         KC_QUOT,  HOME_A,   HOME_O,  HOME_E,  HOME_U,  KC_I,                KC_D,    HOME_H,   HOME_T,   HOME_N,  HOME_S,  KC_L,
-        KC_COLN,  KC_COLN,  KC_Q,    KC_J,    KC_K,    KC_X,                KC_B,    KC_M,     KC_W,     KC_V,    KC_Z,    TD(0),
+        KC_COLN,  KC_COLN,  KC_Q,    KC_J,    KC_K,    KC_X,                KC_B,    KC_M,     KC_W,     KC_V,    KC_Z,    CW_TOGG,
                                      MOU_ESC, NAV_SPC, SYS_TAB,             SYM_ENT, NUM_BSPC, FUN_DEL
     ),
 
     [_GAME] = LAYOUT(
-                            KC_2,    KC_3,    KC_4,    KC_P,               XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,
+                            KC_2,    KC_3,    KC_4,    KC_P,               TO(_BASE), XXXXXXX,  XXXXXXX,  XXXXXXX,
         KC_1,       KC_Q,   KC_W,    KC_E,    KC_R,    KC_F,               XXXXXXX,   KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
         KC_ESC,     KC_TAB, KC_A,    KC_S,    KC_D,    KC_B,               XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
                                      KC_LSFT, GAU_SPC, KC_LALT,            TO(_BASE), NUM_BSPC, FUN_DEL
@@ -151,15 +155,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MOUSE] = LAYOUT(
                            KC_7,    KC_8,     KC_9,      KC_PLUS,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
         KC_SCRL, KC_LSCR,  KC_BTN3, KC_BTN2,  KC_BTN1,   KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_MINS, KC_ASTR,  KC_1,    KC_2,     TG(_GAME), KC_SLSH,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        KC_MINS, KC_ASTR,  KC_1,    KC_2,     KC_3,      KC_SLSH,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
                                      _______, KC_0,      KC_DLR,          KC_ENT,   XXXXXXX,  KC_DEL
     ),
 
     [_NAV] = LAYOUT(
                                      LCAG(KC_1),         LCAG(KC_2),         LCAG(KC_3),         KC_F5,            KC_MNXT,  KC_MPLY,  LCTL(KC_T), LCTL(KC_R),
         XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), KC_F9,            KC_CAPS,  KC_LEFT,  KC_UP,      KC_DOWN,  KC_RGHT,  XXXXXXX,
-        XXXXXXX, XXXXXXX,            KC_F1,              LCTL(KC_X),         TG(_GAME),          XXXXXXX,          KC_INS,   KC_HOME,  KC_PGUP,    KC_PGDN,  KC_END,   KC_APP,
-                                                         KC_ESC,             _______,            KC_TAB,           KC_ENT,   KC_BSPC,  KC_DEL
+        XXXXXXX, XXXXXXX,            KC_F1,              LCTL(KC_X),         KC_LINESEL,         LCTL(KC_D),       KC_INS,   KC_HOME,  KC_PGUP,    KC_PGDN,  KC_END,   KC_APP,
+                                                         KC_ESC,             _______,            TG(_GAME),        KC_ENT,   KC_BSPC,  KC_DEL
     ),
 
     [_SYS] = LAYOUT(
@@ -177,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NUMBER] = LAYOUT(
-                            KC_9,    KC_8,    KC_7,    KC_PLUS,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                            KC_9,    KC_8,    KC_7,    KC_PLUS,         KC_MPRV,  KC_MPLY,  KC_MNXT,  XXXXXXX,
         KC_GRAVE, KC_MINS,  KC_3,    KC_2,    KC_1,    KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
         KC_MINS,  KC_ASTR,  KC_6,    KC_5,    KC_4,    KC_SLSH,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
                                      KC_DOT,  KC_0,    KC_DLR,          KC_ENT,   _______,  KC_DEL
@@ -222,22 +226,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;        // Return false to ignore further processing of key
             }
             break;
+			
+		case KC_LINESEL:
+		    if (record->event.pressed) {
+				tap_code16(KC_HOME);
+				tap_code16(LSFT(KC_END));
+			}
+			break;
     }
     return true;
 }
-
-// CAPS_WORD on tap dance z
-void words_lock_z (tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
-        tap_code16(KC_Z);
-    } else if (state->count == 2) {
-        caps_word_on();
-    }
-}
-
-tap_dance_action_t tap_dance_actions[] = {
- [0] = ACTION_TAP_DANCE_FN (words_lock_z),
-};
 
 
 // Special Combos
@@ -261,7 +259,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         tap_code16(KC_A);
       }
       break;
-	case LINE_SEL:
+	case LINE_SEL: // can be removed after key test
       if (pressed) {
         tap_code16(KC_HOME);
         tap_code16(LSFT(KC_END));
