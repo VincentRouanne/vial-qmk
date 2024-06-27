@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT(
                                      LCAG(KC_1),         LCAG(KC_2),         LCAG(KC_3),         KC_F5,            KC_MNXT,  KC_MPLY,  LCTL(KC_T), LCTL(KC_R),
-        XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), KC_F9,            KC_CAPS,  KC_LEFT,  KC_DOWN,    KC_UP,    KC_RGHT,  XXXXXXX,
+        XXXXXXX, LGUI_T(LCTL(KC_Y)), LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), KC_F9,            KC_CAPS,  KC_LEFT,  KC_UP,      KC_DOWN,  KC_RGHT,  XXXXXXX,
         XXXXXXX, XXXXXXX,            KC_F1,              LCTL(KC_X),         TG(_GAME),          XXXXXXX,          KC_INS,   KC_HOME,  KC_PGUP,    KC_PGDN,  KC_END,   KC_APP,
                                                          KC_ESC,             _______,            KC_TAB,           KC_ENT,   KC_BSPC,  KC_DEL
     ),
@@ -290,14 +290,14 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [0] = { ENCODER_CCW_CW(KC_MS_WH_UP, KC_MS_WH_DOWN),		ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
+    [0] = { ENCODER_CCW_CW(KC_MS_WH_DOWN, KC_MS_WH_UP),		ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
     [1] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
     [2] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
     [3] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),         	 	ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
     [4] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT), 				ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
     [5] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
-    [6] = { ENCODER_CCW_CW(KC_UP, KC_DOWN),             	ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
+    [6] = { ENCODER_CCW_CW(KC_DOWN, KC_UP),             	ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
     [7] = { ENCODER_CCW_CW(LCTL(KC_LEFT), LCTL(KC_RIGHT)),	ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
-    [8] = { ENCODER_CCW_CW(LCTL(KC_PGUP), LCTL(KC_PGDN)),          		ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+    [8] = { ENCODER_CCW_CW(LCTL(KC_PGDN), LCTL(KC_PGUP)),          		ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
 };
 #endif
