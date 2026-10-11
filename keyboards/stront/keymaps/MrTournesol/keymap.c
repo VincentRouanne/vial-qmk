@@ -31,14 +31,23 @@ enum custom_keycodes {
 };
 
 // lol c held utilities
-#define HOLD_C_LAYER _GAME
-
+#define HOLD_C_LAYER         _GAME
+#define HOLD_C_REFRESH_KEY   KC_P   // pressing this re-presses a held C
+#define HOLD_C_REFRESH_DELAY 10       // ms between C up and C down
 static bool c_held = false;
 
 static void release_held_c(void) {
     if (c_held) {
         unregister_code(KC_C);
         c_held = false;
+    }
+}
+
+static void refresh_held_c(void) {
+    if (c_held) {
+        unregister_code(KC_C);
+        wait_ms(HOLD_C_REFRESH_DELAY);
+        register_code(KC_C);
     }
 }
 
@@ -278,6 +287,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// post process shop key for lol C held
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == HOLD_C_REFRESH_KEY && record->event.pressed) {
+        refresh_held_c();
+    }
+}
 
 // Special Combos
 void process_combo_event(uint16_t combo_index, bool pressed) {
