@@ -41,12 +41,12 @@ enum custom_keycodes {
 #define HOME_S RGUI_T(KC_S)
 
 // bottom mods
-#define MOU_ESC LT(_MOUSE, KC_ESC)
+#define MOU_TAB LT(_MOUSE, KC_TAB)
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define SYM_ENT LT(_SYMBOL, KC_ENT)
 #define NUM_BSPC LT(_NUMBER, KC_BSPC)
 #define FUN_DEL LT(_FUNC, KC_DEL)
-#define SYS_TAB LT(_SYS, KC_TAB)
+#define SYS_ESC LT(_SYS, KC_ESC)
 #define GAU_SPC LT(_GAMEUP, KC_SPC)
 
 // game layer mods
@@ -56,6 +56,7 @@ enum custom_keycodes {
 #define LGUI_QUOT LGUI_T(KC_QUOT)
 
 // Define COMBOS!
+// symbols
 const uint16_t PROGMEM combo_lpar[] = {HOME_O, HOME_E, COMBO_END};
 const uint16_t PROGMEM combo_rpar[] = {HOME_E, HOME_U, COMBO_END};
 const uint16_t PROGMEM combo_lbra[] = {KC_COMM, KC_DOT, COMBO_END};
@@ -65,7 +66,7 @@ const uint16_t PROGMEM combo_rcbra[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_equal[] = {HOME_U, KC_I, COMBO_END};
 const uint16_t PROGMEM combo_semicol[] = {HOME_U, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_und[] = {HOME_U, KC_P, COMBO_END};
-
+// numpad
 const uint16_t PROGMEM combo_0[] = {KC_D, HOME_H, COMBO_END};
 const uint16_t PROGMEM combo_1[] = {HOME_H, HOME_T, COMBO_END};
 const uint16_t PROGMEM combo_2[] = {HOME_T, HOME_N, COMBO_END};
@@ -76,18 +77,23 @@ const uint16_t PROGMEM combo_6[] = {KC_M, KC_W, KC_V, COMBO_END};
 const uint16_t PROGMEM combo_7[] = {KC_G, KC_C, COMBO_END};
 const uint16_t PROGMEM combo_8[] = {KC_C, KC_R, COMBO_END};
 const uint16_t PROGMEM combo_9[] = {KC_G, KC_C, KC_R, COMBO_END};
-
+// french accents
 const uint16_t PROGMEM combo_accente[] = {HOME_E, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_accente2[] = {HOME_E, KC_J, COMBO_END};
 const uint16_t PROGMEM combo_accenta[] = {HOME_A, KC_COLN, COMBO_END};
+// utilities
 const uint16_t PROGMEM combo_line_selection[] = {KC_MPLY, KC_LEFT, COMBO_END};
 const uint16_t PROGMEM combo_next_desktop[] = {HOME_E, HOME_O, HOME_U, COMBO_END};
 const uint16_t PROGMEM combo_prev_desktop[] = {HOME_A, HOME_E, HOME_O, COMBO_END};
+// mimic 34 key work keyboard
+const uint16_t PROGMEM combo_esc[] = {KC_O, KC_U, COMBO_END};
+const uint16_t PROGMEM combo_del[] = {KC_H, KC_N, COMBO_END};
+
 
 combo_t key_combos[] = {
     [E_ACCENT] = COMBO_ACTION(combo_accente), // put these first else they override the non-named combos
     [E_ACCENT2] = COMBO_ACTION(combo_accente2),
-    [A_ACCENT] = COMBO_ACTION(combo_accenta),
+    [A_ACCENT] = COMBO_ACTION(combo_accenta), // ToDo: check why it did the wrong accent
     [LINE_SEL] = COMBO_ACTION(combo_line_selection),
     COMBO(combo_lpar, KC_LPRN),
     COMBO(combo_rpar, KC_RPRN),
@@ -108,7 +114,9 @@ combo_t key_combos[] = {
     COMBO(combo_7, KC_7),
     COMBO(combo_8, KC_8),
     COMBO(combo_9, KC_9),
-    COMBO(combo_next_desktop, LCTL(LGUI(KC_RIGHT))),
+    COMBO(combo_esc, KC_ESC),
+    COMBO(combo_del, KC_DEL),
+    COMBO(combo_next_desktop, LCTL(LGUI(KC_RIGHT))), // ToDo: remove? replace by winjump software
     COMBO(combo_prev_desktop, LCTL(LGUI(KC_LEFT))),
 };
 
@@ -133,23 +141,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // clang-format off
     [_BASE] = LAYOUT(
                             KC_COMM, KC_DOT,  KC_P,    KC_Y,                KC_F,    KC_G,     KC_C,     KC_R,
-        KC_QUOT,  KC_QUOT,  HOME_O,  HOME_E,  HOME_U,  KC_I,                KC_D,    HOME_H,   HOME_T,   HOME_N,  KC_L,   CW_TOGG,
+        KC_GRAVE, KC_QUOT,  HOME_O,  HOME_E,  HOME_U,  KC_I,                KC_D,    HOME_H,   HOME_T,   HOME_N,  KC_L,   CW_TOGG,
         KC_COLN,  HOME_A,   KC_Q,    KC_J,    KC_K,    KC_X,                KC_B,    KC_M,     KC_W,     KC_V,    HOME_S, KC_Z, 
-                                     MOU_ESC, NAV_SPC, SYS_TAB,             SYM_ENT, NUM_BSPC, FUN_DEL
+                                     MOU_TAB, NAV_SPC, SYS_ESC,             SYM_ENT, NUM_BSPC, FUN_DEL
     ),
 
     [_GAME] = LAYOUT(
-                          KC_2,    KC_3,    KC_4,    KC_P,               TO(_BASE), XXXXXXX,  XXXXXXX,  XXXXXXX,
-        KC_ESC,   KC_1,   KC_W,    KC_E,    KC_R,    KC_F,               XXXXXXX,   KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_TAB,   KC_Q,   KC_A,    KC_S,    KC_D,    KC_B,               XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                   KC_Z,    GAU_SPC, KC_L,               TO(_BASE), NUM_BSPC, FUN_DEL
+                          KC_2,    KC_3,    KC_4,    XXXXXXX,            TO(_BASE), XXXXXXX,  XXXXXXX,  XXXXXXX,
+        KC_B,     KC_1,   KC_W,    KC_E,    KC_R,    KC_F,               XXXXXXX,   KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
+        KC_TAB,   KC_Q,   KC_A,    KC_S,    KC_D,    XXXXXXX,            XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                   KC_Z,    GAU_SPC, KC_SPC,             TO(_BASE), NUM_BSPC, FUN_DEL
     ),
 
     [_GAMEUP] = LAYOUT(
-                                 KC_F2,       KC_F3,      KC_F4,      KC_SPC,             KC_Y,    KC_U,    KC_I,     KC_O,
-        KC_ESC,     KC_F1,       LSFT(KC_W),  LSFT(KC_E), LSFT(KC_R), KC_F,               KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
-        KC_TAB,     LSFT(KC_Q),  KC_GRAVE,    KC_T,       KC_T,       KC_ESC,             KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
-                                              KC_Z,       _______,    KC_L,               XXXXXXX, XXXXXXX, XXXXXXX
+                             KC_F2,       KC_F3,      KC_F4,      KC_F5,              KC_Y,    KC_U,    KC_I,     KC_O,
+        KC_ESC, KC_F1,       LSFT(KC_W),  LSFT(KC_E), LSFT(KC_R), XXXXXXX,            KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
+        KC_P,   LSFT(KC_Q),  KC_GRAVE,    KC_T,       KC_B,       KC_P,               KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
+                                          KC_Z,       _______,    KC_L,               XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [_MOUSE] = LAYOUT(
@@ -160,24 +168,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_NAV] = LAYOUT(
-                                     LCAG(KC_1),         LCAG(KC_2),         LCAG(KC_3),         KC_F5,            KC_MNXT,  KC_MPLY,  LCTL(KC_T), LCTL(KC_R),
-        XXXXXXX, XXXXXXX,            LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), KC_F9,            KC_CAPS,  KC_LEFT,  KC_UP,      KC_DOWN,  KC_APP,    XXXXXXX,
-        XXXXXXX, LGUI_T(LCTL(KC_Y)), KC_F1,              LCTL(KC_X),         KC_LINESEL,         LCTL(KC_D),       KC_INS,   KC_HOME,  KC_PGUP,    KC_PGDN,  KC_RGHT,   KC_END,
-                                                         KC_ESC,             _______,            TG(_GAME),        KC_ENT,   KC_BSPC,  KC_DEL
+                                        LCAG(KC_1),         LCAG(KC_2),         LCAG(KC_3),         KC_F5,            KC_MNXT,  KC_MPLY,  LSA(KC_F),  LCTL(KC_R),
+        LCAG(KC_5), LCAG(KC_4),         LALT_T(LCTL(KC_Z)), LCTL_T(LCTL(KC_C)), LSFT_T(LCTL(KC_V)), KC_F9,            KC_CAPS,  KC_LEFT,  KC_UP,      KC_DOWN,  KC_APP,    XXXXXXX,
+        XXXXXXX,    LGUI_T(LCTL(KC_Y)), KC_F1,              LCTL(KC_X),         KC_LINESEL,         LCTL(KC_D),       KC_INS,   KC_HOME,  KC_PGUP,    KC_PGDN,  KC_RGHT,   KC_END,
+                                                            KC_ESC,             _______,            TG(_GAME),        KC_ENT,   KC_BSPC,  KC_DEL
     ),
 
     [_SYS] = LAYOUT(
                             BL_DOWN,  BL_UP,    BL_TOGG,  XXXXXXX,            XXXXXXX,  RGB_TOG,  RGB_MOD,  RGB_RMOD,
         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,            XXXXXXX,  RGB_HUI,  RGB_SAI,  RGB_VAI,  RGB_SPI,  RGB_M_P,
         EH_LEFT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  EH_RGHT,            EH_RGHT,  RGB_HUD,  RGB_SAD,  RGB_VAD,  RGB_SPD,  EH_LEFT,
-                                      _______,  QK_BOOT,  _______,            _______,  QK_BOOT, _______
+                                      QK_BOOT,  XXXXXXX,  _______,            _______,  XXXXXXX, _______
     ),
 
     [_SYMBOL] = LAYOUT(
                           KC_LBRC, KC_RBRC,  KC_AMPR, KC_PIPE,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-        KC_TILD, KC_AT,   KC_LPRN, KC_RPRN,  KC_PERC, KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_COLN, KC_UNDS, KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                   KC_SCLN,  KC_QUES, KC_EXLM,         _______,  NUM_BSPC, QK_BOOT
+        KC_CIRC, KC_DLR,  KC_LPRN, KC_RPRN,  KC_PERC, KC_EQL,          XXXXXXX,  KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
+        KC_COLN, KC_AT,   KC_LCBR, KC_RCBR,  KC_HASH, KC_BSLS,         XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                   KC_TILD,  KC_QUES, KC_EXLM,         _______,  NUM_BSPC, QK_BOOT
     ),
 
     [_NUMBER] = LAYOUT(
