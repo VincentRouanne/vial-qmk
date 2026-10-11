@@ -20,13 +20,34 @@ enum layer_number {
 enum combo_events {
 	E_ACCENT,
 	E_ACCENT2,
+        E_ACCENT3,
 	A_ACCENT,
 	LINE_SEL,
 };
 
 enum custom_keycodes {
     KC_LINESEL = SAFE_RANGE,
+    HOLD_C,
 };
+
+// lol c held utilities
+#define HOLD_C_LAYER _GAME
+
+static bool c_held = false;
+
+static void release_held_c(void) {
+    if (c_held) {
+        unregister_code(KC_C);
+        c_held = false;
+    }
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    if (!layer_state_cmp(state, HOLD_C_LAYER)) {
+        release_held_c();
+    }
+    return state;
+}
 
 // Left-hand home row mods
 #define HOME_A LGUI_T(KC_A)
@@ -47,7 +68,7 @@ enum custom_keycodes {
 #define NUM_BSPC LT(_NUMBER, KC_BSPC)
 #define FUN_DEL LT(_FUNC, KC_DEL)
 #define SYS_ESC LT(_SYS, KC_ESC)
-#define GAU_SPC LT(_GAMEUP, KC_SPC)
+#define GAU_SPC LT(_GAMEUP, KC_SPC) // ToDo: not needed anymore?
 
 // game layer mods
 #define LALT_Q LALT_T(KC_Q)
@@ -80,19 +101,21 @@ const uint16_t PROGMEM combo_9[] = {KC_G, KC_C, KC_R, COMBO_END};
 // french accents
 const uint16_t PROGMEM combo_accente[] = {HOME_E, KC_DOT, COMBO_END};
 const uint16_t PROGMEM combo_accente2[] = {HOME_E, KC_J, COMBO_END};
-const uint16_t PROGMEM combo_accenta[] = {HOME_A, KC_COLN, COMBO_END};
+const uint16_t PROGMEM combo_accente3[] = {HOME_E, HOME_A, COMBO_END};
+const uint16_t PROGMEM combo_accenta[] = {HOME_A, KC_QUOT, COMBO_END};
 // utilities
 const uint16_t PROGMEM combo_line_selection[] = {KC_MPLY, KC_LEFT, COMBO_END};
 const uint16_t PROGMEM combo_next_desktop[] = {HOME_E, HOME_O, HOME_U, COMBO_END};
 const uint16_t PROGMEM combo_prev_desktop[] = {HOME_A, HOME_E, HOME_O, COMBO_END};
 // mimic 34 key work keyboard
-const uint16_t PROGMEM combo_esc[] = {KC_O, KC_U, COMBO_END};
-const uint16_t PROGMEM combo_del[] = {KC_H, KC_N, COMBO_END};
+const uint16_t PROGMEM combo_esc[] = {HOME_O, HOME_U, COMBO_END};
+const uint16_t PROGMEM combo_del[] = {HOME_H, HOME_N, COMBO_END};
 
 
 combo_t key_combos[] = {
     [E_ACCENT] = COMBO_ACTION(combo_accente), // put these first else they override the non-named combos
     [E_ACCENT2] = COMBO_ACTION(combo_accente2),
+    [E_ACCENT3] = COMBO_ACTION(combo_accente3),
     [A_ACCENT] = COMBO_ACTION(combo_accenta), // ToDo: check why it did the wrong accent
     [LINE_SEL] = COMBO_ACTION(combo_line_selection),
     COMBO(combo_lpar, KC_LPRN),
@@ -147,17 +170,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [_GAME] = LAYOUT(
-                          KC_2,    KC_3,    KC_4,    XXXXXXX,            TO(_BASE), XXXXXXX,  XXXXXXX,  XXXXXXX,
-        KC_B,     KC_1,   KC_W,    KC_E,    KC_R,    KC_F,               XXXXXXX,   KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
-        KC_TAB,   KC_Q,   KC_A,    KC_S,    KC_D,    XXXXXXX,            XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-                                   KC_Z,    GAU_SPC, KC_SPC,             TO(_BASE), NUM_BSPC, FUN_DEL
+                          KC_2,    KC_3,    KC_4,        KC_5,               TO(_BASE), XXXXXXX,  XXXXXXX,  XXXXXXX,
+        KC_M,     KC_1,   KC_W,    KC_E,    KC_R,        KC_F,               XXXXXXX,   KC_RSFT,  KC_RCTL,  KC_LALT,  KC_RGUI,  XXXXXXX,
+        KC_TAB,   KC_Q,   KC_A,    KC_S,    KC_D,        KC_6,               XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                   KC_Z,    MO(_GAMEUP), KC_SPC,             TO(_BASE), NUM_BSPC, FUN_DEL
     ),
 
     [_GAMEUP] = LAYOUT(
                              KC_F2,       KC_F3,      KC_F4,      KC_F5,              KC_Y,    KC_U,    KC_I,     KC_O,
-        KC_ESC, KC_F1,       LSFT(KC_W),  LSFT(KC_E), LSFT(KC_R), XXXXXXX,            KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
-        KC_P,   LSFT(KC_Q),  KC_GRAVE,    KC_T,       KC_B,       KC_P,               KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
-                                          KC_Z,       _______,    KC_L,               XXXXXXX, XXXXXXX, XXXXXXX
+        KC_ESC, KC_F1,       LSFT(KC_W),  LSFT(KC_E), LSFT(KC_R), KC_J,               KC_H,    KC_J,    KC_K,     KC_L,    KC_SCLN,  KC_P,
+        KC_P,   LSFT(KC_Q),  KC_K,        KC_T,       KC_B,       KC_N,               KC_N,    KC_M,    KC_COMM,  KC_DOT,  KC_SLSH,  LGUI_QUOT,
+                                          KC_F20,     _______,    HOLD_C,             XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
     [_MOUSE] = LAYOUT(
@@ -234,6 +257,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;        // Return false to ignore further processing of key
             }
             break;
+        case HOLD_C:
+            if (record->event.pressed) {
+                if (c_held) {
+                    release_held_c();
+                } else {
+                    register_code(KC_C);
+                    c_held = true;
+                }
+            }
+            return false;
 			
 		case KC_LINESEL:
 		    if (record->event.pressed) {
@@ -258,6 +291,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     case E_ACCENT2:
       if (pressed) {
         tap_code16(KC_GRAVE);
+        tap_code16(KC_E);
+      }
+      break;
+    case E_ACCENT3:
+      if (pressed) {
+        tap_code16(KC_CIRC);
         tap_code16(KC_E);
       }
       break;
@@ -297,13 +336,13 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [0] = { ENCODER_CCW_CW(KC_MS_WH_DOWN, KC_MS_WH_UP),		ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
-    [1] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
+    [1] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
     [2] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
     [3] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),         	 	ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
-    [4] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT), 				ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
+    [4] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT), 			ENCODER_CCW_CW(KC_VOLD, KC_VOLU)  },
     [5] = { ENCODER_CCW_CW(KC_LEFT, KC_RIGHT),          	ENCODER_CCW_CW(RGB_SAD, RGB_SAI)  },
     [6] = { ENCODER_CCW_CW(KC_DOWN, KC_UP),             	ENCODER_CCW_CW(RGB_SPD, RGB_SPI)  },
     [7] = { ENCODER_CCW_CW(LCTL(KC_LEFT), LCTL(KC_RIGHT)),	ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
-    [8] = { ENCODER_CCW_CW(LCTL(KC_PGDN), LCTL(KC_PGUP)),          		ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
+    [8] = { ENCODER_CCW_CW(LCTL(KC_PGDN), LCTL(KC_PGUP)),      	ENCODER_CCW_CW(KC_RIGHT, KC_LEFT) },
 };
 #endif
